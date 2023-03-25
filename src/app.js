@@ -93,7 +93,7 @@ app.post("/fulfillment",async(request,response)=>{
     // follow up intent 
 
     function balanceFollowup(agent){
-        // agent.add(`Hello ${name} your balance is Ksh.${balance}`);
+        agent.add(`Hello ${name} your balance is Ksh.${balance}`);
 
       }
   
@@ -106,6 +106,8 @@ app.post("/fulfillment",async(request,response)=>{
   let intentMap = new Map();
   intentMap.set("Default Welcome Intent", welcome);
   intentMap.set("Default Fallback Intent", fallback);
+
+
 //   intentMap.set("userBalance" ,balanceFollowup);
 intentMap.set("Default Welcome Intent - yes",balanceFollowup)
 
