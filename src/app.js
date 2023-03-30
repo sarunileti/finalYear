@@ -10,6 +10,7 @@ const { connection } = require("./db/mongoose");
 
 const User = require("./models/user.model");
 const Transaction = require("./models/transaction.model")
+const Contact = require("./models/contactus.model")
 
 require("dotenv").config();
 
@@ -34,6 +35,15 @@ app.set("view engine", "hbs");
 app.set("views",viewsPath);
 hbs.registerPartials(partialsPath);
 
+app.get("/",(req,res)=>{
+
+  res.render("index.hbs")
+})
+
+app.get("/contact",(req,res)=>{
+
+  res.render("contact.hbs")
+})
 
 // dialog flow chatbot
 
@@ -264,6 +274,26 @@ app.get("/users",async(req,res)=>{
   
 
 // transactions
+app.post("/contact",async(req,res)=>{
+
+  try{
+    const {name,email,phone,message} = req.body;
+ const newMessage = new Contact({
+  name,
+  email,
+  phone,
+  message
+})
+console.log(newMessage)
+await newMessage.save();
+res.status(201).send({succes:"Mesage was sent"})
+
+  }catch(e){
+    re.status(500).send({e})
+  }
+
+    
+})
 
 app.listen(PORT,async()=>{
     await connection();

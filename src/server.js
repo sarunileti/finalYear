@@ -1,36 +1,26 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const dotenv = require('dotenv');
-const jwt = require('jsonwebtoken');
-const registerRouter = require('./routes/register');
+const app = express();
+const port = 3000;
 
-dotenv.config();
+app.use(express.static('public'));
 
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => console.error(err));
+app.get('/api/accounts', (req, res) => {
+  // handle GET request for accounts
+});
 
-  const app = express();
+app.post('/api/accounts', (req, res) => {
+  // handle POST request for accounts
+});
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.get('/api/transactions', (req, res) => {
+  // handle GET request for transactions
+});
 
-function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-  
-    if (token == null) return res.sendStatus(401);
-  
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err) return res.sendStatus(403);
-      req.user = user;
-      next();
-    });
-  }
+app.post('/api/transactions', (req, res) => {
+  // handle POST request for transactions
+});
 
-  app.use('/register', authenticateToken, registerRouter);
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
 
-  const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
